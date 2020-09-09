@@ -52,7 +52,13 @@ function voteBtnHandler(event) {
     .catch(err => console.log(err.message))
 }
 
+const commentForm = document.querySelector(".comment-form");
+commentForm.addEventListener("submit", sendComment);
 
+function sendComment(event) {
+    event.preventDefault(); //name id class placeholder
+
+}
 
 // it sends data about the kitten image back to the client.
 // When the server responds, update the DOM so that it's showing the kitten picture.
