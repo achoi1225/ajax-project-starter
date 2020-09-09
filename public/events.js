@@ -7,14 +7,13 @@
 // index.html has an <img> element, but the element has an empty src attribute. In this first phase, set up an event listener that waits for the DOM content to be loaded. When the DOM content is loaded, the client should make a GET request, using the Fetch API, to the /kitten/image route.
 
 let picButton = document.getElementById("new-pic")
-picButton.addEventListener("click", newPicButtonHandler)
+picButton.addEventListener("click", newPicBtnHandler)
 
-newPicButtonHandler();
+newPicBtnHandler();
 
-function newPicButtonHandler() {
+function newPicBtnHandler() {
     const loadMsg = document.querySelector("div.loader");
     loadMsg.innerHTML = 'getting cats!';
-
     fetch(`/kitten/image`)
         .then(res => {
         if (!res.ok) throw res
@@ -25,9 +24,35 @@ function newPicButtonHandler() {
             const imgTag = document.querySelector("img");
             imgTag.setAttribute("src", kittenImg.src);
             loadMsg.innerHTML = '<br>'; 
-        }) // TODO CHECK does this work
-        .catch(err => err.json().then(errMsg)) // Hope it works
+        })
+        .catch(err => err.json().then(errMsg => {
+          alert(errMsg.message)
+        }))
 }
+
+const upvoteBtn = document.getElementById("upvote")
+const downvoteBtn = document.getElementById("downvote")
+
+upvoteBtn.addEventListener("click", voteBtnHandler)
+downvoteBtn.addEventListener("click", voteBtnHandler)
+
+function voteBtnHandler(event) {
+  fetch(`/kitten/${event.target.id}`, {
+    method: "PATCH", 
+    headers: {"Content-Type": "application/json"},
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Nopers upvotes")
+      return res.json()
+    })
+    .then(scoreJson => {
+      let score = document.querySelector(".score")
+      score.innerHTML = scoreJson.score
+    })
+    .catch(err => console.log(err.message))
+}
+
+
 
 // it sends data about the kitten image back to the client.
 // When the server responds, update the DOM so that it's showing the kitten picture.
