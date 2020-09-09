@@ -9,14 +9,24 @@
 let picButton = document.getElementById("new-pic")
 picButton.addEventListener("click", newPicButtonHandler)
 
+newPicButtonHandler();
+
 function newPicButtonHandler() {
-  fetch(`/kitten/image`)
-    .then(res => {
-      if (!res.ok) throw res
-      else return res.json()
-    })
-    .then(console.log) // TODO CHECK does this work
-    .catch(err => err.json().then(errMsg)) // Hope it works
+    const loadMsg = document.querySelector("div.loader");
+    loadMsg.innerHTML = 'getting cats!';
+
+    fetch(`/kitten/image`)
+        .then(res => {
+        if (!res.ok) throw res
+        else return res.json()
+        })
+        .then(kittenImg => {
+            // console.log;
+            const imgTag = document.querySelector("img");
+            imgTag.setAttribute("src", kittenImg.src);
+            loadMsg.innerHTML = '<br>'; 
+        }) // TODO CHECK does this work
+        .catch(err => err.json().then(errMsg)) // Hope it works
 }
 
 // it sends data about the kitten image back to the client.
