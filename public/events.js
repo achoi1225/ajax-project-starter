@@ -38,8 +38,7 @@ downvoteBtn.addEventListener("click", voteBtnHandler)
 
 function voteBtnHandler(event) {
   fetch(`/kitten/${event.target.id}`, {
-    method: "PATCH", 
-    headers: {"Content-Type": "application/json"},
+    method: "PATCH"
   })
     .then(res => {
       if (!res.ok) throw new Error("Nopers upvotes")
@@ -55,14 +54,53 @@ function voteBtnHandler(event) {
 const commentForm = document.querySelector(".comment-form");
 commentForm.addEventListener("submit", sendComment);
 
+
+
+
+function sendComment(event) {
+    event.preventDefault();
+    const input = document.getElementById("user-comment")
+    let inputVal = input.value;
+    comments.innerHTML += `<p>${inputVal}</p>`;
+    const formPackage = new FormData(commentForm);
+
+    fetch("/kitten/comments", {
+        method: "POST",
+        
+    });
+    for(let testOfMyPackage of formPackage) {
+        console.log(testOfMyPackage, formPackage[testOfMyPackage]);
+    }
+    // console.log('currentTarget', event.currentTarget, 'event.target', event.target)
+}
+
+
+// fetch("https://jservice.xyz/api/categories", {
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify({
+//         title: "ACTORS & THEIR FILMS"
+//     })
+// })
+//     .then(function (res) {
+//         return res.json();
+//     })
+//     .then(function (data) {
+//         console.log(data);
+//     });
+
+
+const comments = document.querySelector(".comments");
+
+
 // commentForm.addEventListener("input", (ev) => {
 //   inputVal = ev.target.value
 //   // console.log(inputVal)
 // })
 
-function sendComment(event) {
-    event.preventDefault();
-    const input = document.getElementById("user-comment")
-    let inputVal = input.value
-    console.log('currentTarget', event.currentTarget, 'event.target', event.target)
-}
+// const submitBtn = document.getElementById('sunflower');
+// commentForm.addEventListener('click', e => {
+//     console.log('currentTarget', event.currentTarget, 'event.target', event.target);
+// })
