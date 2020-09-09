@@ -62,16 +62,25 @@ function sendComment(event) {
     const input = document.getElementById("user-comment")
     let inputVal = input.value;
     comments.innerHTML += `<p>${inputVal}</p>`;
+    
     const formPackage = new FormData(commentForm);
+    // .entries() = ["field name aka lilies", "field value aka carrots"]
+    
+    const userComment = formPackage.get('user-comment')
+  
+    console.log('usercomment', userComment)
+    
+    for(let testOfMyPackage of formPackage.keys()) {
+      console.log("Hello! This is a formPackage key:", testOfMyPackage);
+  }
 
     fetch("/kitten/comments", {
         method: "POST",
-        
+        // headers: {"Content-Type": "application/json"},
+        body: {},
     });
-    for(let testOfMyPackage of formPackage) {
-        console.log(testOfMyPackage, formPackage[testOfMyPackage]);
-    }
-    // console.log('currentTarget', event.currentTarget, 'event.target', event.target)
+
+
 }
 
 
